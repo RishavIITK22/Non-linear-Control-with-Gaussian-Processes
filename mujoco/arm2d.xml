@@ -1,0 +1,50 @@
+<mujoco model="arm2d">
+  <option integrator="RK4" timestep="0.002" gravity="0 0 0" viscosity="0.002"/>
+
+  <visual>
+    <global azimuth="120" elevation="-25" fovy="60" />
+    <quality shadowsize="4096" offsamples="8" />
+    <map znear="0.001" zfar="200" fogstart="6" fogend="30" />
+  </visual>
+
+
+  <asset>
+    <texture name="sky" type="skybox" builtin="gradient" rgb1=".4 .6 .9" rgb2=".05 .05 .2"
+             width="512" height="512"/>
+    <texture name="floor_tex" type="2d" builtin="checker" width="512" height="512"
+             rgb1="0.75 0.75 0.75" rgb2="0.55 0.55 0.55"/>
+    <material name="floor_mat" texture="floor_tex" reflectance="0.15" shininess="0.4"/>
+    <texture name="link_tex" type="cube" builtin="gradient" rgb1="0.8 0.1 0.1" rgb2="0.4 0.0 0.0"
+            width="512" height="512"/>
+    <material name="link_mat" texture="link_tex" specular="0.8" shininess="0.6" metallic="0.6"/>
+    <material name="joint_mat" rgba="0.15 0.15 0.15 1.0" specular="0.2" shininess="0.4"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 5" dir="0 0 -1" diffuse="0.8 0.8 0.8" specular="0.4 0.4 0.4"/>
+    <light pos="-4 4 3" dir="0 -1 -0.5" diffuse="0.3 0.3 0.4" specular="0.2 0.2 0.3"/>
+    <camera name="iso" pos="2.5 -4 3" quat="0.74 0.21 0.63 0.08" fovy="50"/>
+    <!-- Base -->
+    <geom name="base" type="plane" size="5 5 0.02" material="floor_mat"/>
+    <body name="link1" pos="0 0 0">
+      <joint name="j1" type="hinge" axis="0 0 1" damping="0.01" limited="false"/>
+      <geom type="capsule" fromto="0 0 0  2 0 0" size="0.05" mass="1.0" material="link_mat"/>
+      <body name="link2" pos="2 0 0">
+        <joint name="j2" type="hinge" axis="0 0 1" damping="0.01" limited="false"/>
+        <geom type="capsule" fromto="0 0 0  1 0 0" size="0.05" mass="0.8" material="link_mat"/>
+        <!-- Add a small sphere at the end-effector -->
+        <geom type="sphere" pos="1 0 0" size="0.08" rgba="0.2 0.8 0.2 1"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+   <motor name="m1" joint="j1" gear="50" ctrllimited="true" ctrlrange="-1 1"/>
+   <motor name="m2" joint="j2" gear="50" ctrllimited="true" ctrlrange="-1 1"/>
+  </actuator>
+
+  <default>
+    <joint armature="0.01" damping="0.01"/>
+    <geom contype="1" conaffinity="1" condim="3" friction="0.4 0.1 0.1"/>
+  </default>
+</mujoco>

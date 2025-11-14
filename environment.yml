@@ -1,0 +1,13 @@
+name: ee650-gp
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - scipy
+  - matplotlib
+  - scikit-learn
+  - pip
+  - pip:
+      - mujoco
