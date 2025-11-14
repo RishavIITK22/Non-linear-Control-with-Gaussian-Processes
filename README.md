@@ -84,7 +84,7 @@ python sim.py --controller robust_learning \
 - `mujoco/arm2d.xml`, `mujoco_run.py` — MuJoCo scene + live viewer for 2‑DOF arm
 - `mujoco/ur10e.xml`, `mujoco/mujoco_run_ur10e.py` — UR10e MuJoCo model with integrated scene + live viewer
 
-## Notes & tips
+# Notes & tips
 
 - GP input: \(a_{\text{aug}} = (q, \dot q, a_q) \in \mathbb{R}^6\); GP output is \(y = \ddot q - a_q\) per joint.
 - Window length (`--window`) trades accuracy vs. runtime; reduce it or fit every N steps when sweeping many trajectories.
